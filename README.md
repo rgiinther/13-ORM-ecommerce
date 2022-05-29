@@ -1,2 +1,1 @@
-# 13-ORM-ecommerce
-Module 13 ORM Assignment
+# E-commerce Back End Starter Code
