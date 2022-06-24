@@ -38,43 +38,36 @@ Category.findOne({
 
 router.post('/', (req, res) => {
   // create a new category
-Category.create({
-  title: req.body.title,
-
-})
-
+  console.log(req.body);
+  const newCategory = await Category.create(req.body);
+  const categoryId = await Category.findOne({
+    where: {
+      category_name: req.body.category_name,
+    },
+  });
+  res.status(201).send("added new category #" + categoryId.id);
 });
 
 router.put('/:id', (req, res) => {
   // update a category by its `id` value
- Category.update(
-    {
-      title: req.body.title
+  const category = await Category.update(req.body, {
+    where: {
+      id: req.params.id,
     },
-    {
-      where: {
-        id: req.params.id
-      }
-    }
-  )
-    .then(dbCategoryData => {
-      if (!dbCategoryData) {
-        res.status(404).json({ message: 'No post found with this id' });
-        return;
-      }
-      res.json(dbCategoryData);
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json(err);
-    });
-
+  });
+  res.status(202).send("category name updated");
 });
 
 router.delete('/:id', (req, res) => {
   // delete a category by its `id` value
-
-
+  const category = await Category.findByPk(req.params.id);
+  const deleted = await Category.destroy({
+    where: {
+      id: req.params.id,
+    },
+  });
+  res.status(200).send(`Deleted ${category.product_tag}`);
 });
+
 
 module.exports = router;
