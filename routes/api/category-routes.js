@@ -39,8 +39,8 @@ Category.findOne({
 router.post('/', (req, res) => {
   // create a new category
   console.log(req.body);
-  const newCategory = await Category.create(req.body);
-  const categoryId = await Category.findOne({
+  const newCategory = Category.create(req.body);
+  const categoryId = Category.findOne({
     where: {
       category_name: req.body.category_name,
     },
@@ -50,7 +50,7 @@ router.post('/', (req, res) => {
 
 router.put('/:id', (req, res) => {
   // update a category by its `id` value
-  const category = await Category.update(req.body, {
+  const category = Category.update(req.body, {
     where: {
       id: req.params.id,
     },
@@ -60,8 +60,8 @@ router.put('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
   // delete a category by its `id` value
-  const category = await Category.findByPk(req.params.id);
-  const deleted = await Category.destroy({
+  const category =  Category.findByPk(req.params.id);
+  const deleted = Category.destroy({
     where: {
       id: req.params.id,
     },
