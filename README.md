@@ -12,4 +12,6 @@ Node, sql, and JavaScript
 
 github repo link: https://github.com/rgiinther/13-ORM-ecommerce
 
-Video link: 
+Video links
+walkthrough command line video: https://www.youtube.com/watch?v=y8ezQEkuroQ
+walkthrough insomnia routes: 
