@@ -36,38 +36,63 @@ Category.findOne({
 })
 });
 
-router.post('/', (req, res) => {
-  // create a new category
-  console.log(req.body);
-  const newCategory = Category.create(req.body);
-  const categoryId = Category.findOne({
-    where: {
+router.post("/", (req, res) => {
+  Category.create({
+    category_name: req.body.category_name,
+  })
+    .then((allData) => res.json(allData))
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json(err);
+    });
+});
+
+
+router.put("/:id", (req, res) => {
+  Category.update(
+    {
       category_name: req.body.category_name,
     },
-  });
-  res.status(201).send("added new category #" + categoryId.id);
+    {
+      where: {
+        id: req.params.id,
+      },
+    }
+  )
+    .then((allData) => {
+      if (!allData) {
+        res
+          .status(404)
+          .json({ message: "There are no catagories with this ID" });
+        return;
+      }
+      res.json(allData);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json(err);
+    });
 });
 
-router.put('/:id', (req, res) => {
-  // update a category by its `id` value
-  const category = Category.update(req.body, {
+router.delete("/:id", (req, res) => {
+  Category.destroy({
     where: {
       id: req.params.id,
     },
-  });
-  res.status(202).send("category name updated");
+  })
+    .then((allData) => {
+      if (!allData) {
+        res
+          .json(404)
+          .json({ message: "There is no category found matching this ID" });
+        return;
+      }
+      res.json(allData);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json(err);
+    });
 });
-
-router.delete('/:id', (req, res) => {
-  // delete a category by its `id` value
-  const category =  Category.findByPk(req.params.id);
-  const deleted = Category.destroy({
-    where: {
-      id: req.params.id,
-    },
-  });
-  res.status(200).send(`Deleted ${category.product_tag}`);
-});
-
 
 module.exports = router;
